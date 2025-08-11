@@ -27,7 +27,7 @@ export const helloWorld = inngest.createFunction(
     });
 
     const { output } = await codeAgent.run(
-      `Write the following snippet: ${event.data.value}`
+      `Write the following snippet in next.js: ${event.data.value}`
     );
 
     const sandboxUrl = await step.run("get-sandbox-url", async () => {
