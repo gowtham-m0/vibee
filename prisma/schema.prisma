@@ -48,6 +48,7 @@ model Message{
   fragment Fragment?
 }
 
+
 model Fragment{
   id String @id @default(uuid())
   messageId String @unique
