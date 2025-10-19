@@ -5,7 +5,7 @@ import { ExternalLinkIcon, RefreshCcwDotIcon, RefreshCcwIcon } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { Fragment } from "@/generated/prisma";
 import { set } from "zod";
-import { Hint } from "@/components/ui/hint";
+import { Hint } from "@/components/hint";
 
 interface Props{
     data: Fragment;
