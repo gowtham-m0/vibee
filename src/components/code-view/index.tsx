@@ -1,6 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import "prismjs/themes/prism-tomorrow.css";
 
 import "./code-theme.css";
 
@@ -20,7 +19,7 @@ export const CodeView = ({ code, lang }: Props) => {
                 // Support both CJS interop shapes: module.default or module itself
                 const Prism = (PrismModule && (PrismModule as any).default) ? (PrismModule as any).default : (PrismModule as any);
 
-                // Some Prism language plugins expect a global Prism variable — ensure it's set
+            // Some Prism language plugins expect a global Prism variable — ensure it's set
                 if (typeof window !== "undefined") {
                     (window as any).Prism = Prism;
                 }
