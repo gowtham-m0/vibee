@@ -24,6 +24,9 @@ interface Props {
 
 export const ProjectView = ({ projectId }: Props) => {
 
+    const {has} =  useauth();
+    const hasProAccess = has?.({plan: 'pro'})
+
     const [activeFragment, setActiveFragment] = useState<Fragment | null>(null);
     const [tabState , setTabState] = useState<'preview' | 'code'>('preview');
 
@@ -61,11 +64,13 @@ export const ProjectView = ({ projectId }: Props) => {
                                 </TabsTrigger>
                             </TabsList>
                             <div className="ml-auto flex items-center gap-x-2">
-                                <Button asChild size="sm" variant="tertiary">
-                                    <Link href="/pricing">
-                                        <CrownIcon /> Upgrade
-                                    </Link>
-                                </Button>
+                                {!hasProAccess && (
+                                    <Button asChild size="sm" variant="tertiary">
+                                        <Link href="/pricing">
+                                            <CrownIcon /> Upgrade
+                                        </Link>
+                                    </Button>
+                                )}
                                 <UserControl />
                             </div>
                         </div>
@@ -86,3 +91,7 @@ export const ProjectView = ({ projectId }: Props) => {
 };
 
 export default ProjectView;
+
+function useauth(): { has: any; } {
+    throw new Error("Function not implemented.");
+}
