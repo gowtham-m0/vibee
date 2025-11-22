@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/resizable"
 import { MessagesContainer } from "../components/messages-container";
 import { Suspense, useState } from "react";
+import { useAuth } from "@clerk/nextjs";
 import { Fragment } from "@/generated/prisma";
 import { ProjectHeader } from "../components/project-header";
 import { FragmentWeb } from "../components/fragment-web";
@@ -24,7 +25,7 @@ interface Props {
 
 export const ProjectView = ({ projectId }: Props) => {
 
-    const {has} =  useauth();
+    const { has } = useAuth();
     const hasProAccess = has?.({plan: 'pro'})
 
     const [activeFragment, setActiveFragment] = useState<Fragment | null>(null);
@@ -92,6 +93,3 @@ export const ProjectView = ({ projectId }: Props) => {
 
 export default ProjectView;
 
-function useauth(): { has: any; } {
-    throw new Error("Function not implemented.");
-}
