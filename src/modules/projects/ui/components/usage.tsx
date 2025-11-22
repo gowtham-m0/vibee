@@ -3,6 +3,7 @@ import { formatDuration, intervalToDuration } from "date-fns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CrownIcon } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props{
     points: number;
@@ -12,8 +13,8 @@ interface Props{
 export const Usage = ({ points, msBeforeNext}: Props)=>{
 
 
-    const {has} =  useauth();
-    const hasProAccess = has?.({plan: 'pro'})
+    const { has } = useAuth();
+    const hasProAccess = has?.({ plan: 'pro' });
 
     return (
         <div className="rounded-t-xl bg-background border border-b-0 p-2.5">
@@ -47,8 +48,4 @@ export const Usage = ({ points, msBeforeNext}: Props)=>{
             </div>
         </div>
     )
-}
-
-function useauth(): { has: any; } {
-    throw new Error("Function not implemented.");
 }
