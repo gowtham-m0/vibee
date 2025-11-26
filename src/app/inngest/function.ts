@@ -10,6 +10,7 @@ import { lastAssistantTextMessageContent } from '@/lib/utils';
 import { prisma } from '@/lib/db';
 import { format } from 'path';
 import { RESPONSE_LIMIT_DEFAULT } from 'next/dist/server/api-utils';
+import { SANDBOX_TIMEOUT } from './types';
 
 
 
@@ -27,6 +28,7 @@ export const codeAgentFunction = inngest.createFunction(
 
     const sandboxId = await step.run("get-sandbox-id", async () => {
       const sandbox = await Sandbox.create("vibe-nextjs-testt2");
+      await sandbox.setTimeout(SANDBOX_TIMEOUT); 
       return sandbox.sandboxId;
     });
 
@@ -39,7 +41,8 @@ export const codeAgentFunction = inngest.createFunction(
         },
         orderBy: {
           createdAt: 'desc',
-        }
+        },
+        take: 5,
       });
 
       for(const msg of messages){
@@ -49,7 +52,7 @@ export const codeAgentFunction = inngest.createFunction(
           content: msg.content,
         });
       }
-      return formattedMessages;
+      return formattedMessages.reverse();
     });
 
     const state = createState<AgentState>(
