@@ -9,14 +9,13 @@ import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from '@/prompt';
 import { lastAssistantTextMessageContent } from '@/lib/utils';
 import { prisma } from '@/lib/db';
 import { SANDBOX_TIMEOUT } from './types';
+import type { Message as PrismaMessage } from '@/generated/prisma';
 
-
-type LLMOutput = {
+interface AIOutput {
   type: string;
-  content: string;
-  role: string;
+  text?: string;
+  content?: string | string[];
 }
-
 
 interface AgentState{
   summary: string;
@@ -39,7 +38,7 @@ export const codeAgentFunction = inngest.createFunction(
     const previousMessages = await step.run("get-previous-messages", async()=>{
       const formattedMessages: Message[] = [];
 
-      const messages = await prisma.message.findMany({
+      const messages: PrismaMessage[] = await prisma.message.findMany({
         where: {
           projectId: event.data.projectId,
         },
@@ -216,22 +215,54 @@ export const codeAgentFunction = inngest.createFunction(
     const {output: fragmentTitleOutput} = await fragmentTitleGenerator.run(result.state.data.summary);
     const {output: responseOutput} = await responseGenerator.run(result.state.data.summary);
 
-    const generateFragmentTitle = () => {
-      const firstOutput = fragmentTitleOutput[0] as LLMOutput;
-      if(firstOutput.type === "text")
+    const generateFragmentTitle = (): string => {
+      try {
+        const firstOutput = fragmentTitleOutput?.[0] as AIOutput | undefined;
+        if (!firstOutput) return "Fragment";
+        
+        if (firstOutput.type === "text") {
+          if (firstOutput.text) return firstOutput.text;
+          return "Fragment";
+        }
+        
+        if (Array.isArray(firstOutput.content)) {
+          return firstOutput.content.map((txt: string | unknown) => String(txt)).filter(Boolean).join("");
+        }
+        
+        if (typeof firstOutput.content === 'string') {
+          return firstOutput.content;
+        }
+        
         return "Fragment";
-      if(Array.isArray(firstOutput.content))
-        return firstOutput.content.map((txt: string) => txt).join("");
-      return firstOutput.content || "Fragment";
+      } catch (error) {
+        console.error('Error generating fragment title:', error);
+        return "Fragment";
+      }
     }
 
-    const generateResponse = () => {
-      const firstOutput = responseOutput[0] as LLMOutput;
-      if(firstOutput.type === "text")
+    const generateResponse = (): string => {
+      try {
+        const firstOutput = responseOutput?.[0] as AIOutput | undefined;
+        if (!firstOutput) return "Here you go.";
+        
+        if (firstOutput.type === "text") {
+          if (firstOutput.text) return firstOutput.text;
+          return "Here you go.";
+        }
+        
+        if (Array.isArray(firstOutput.content)) {
+          return firstOutput.content.map((txt: string | unknown) => String(txt)).filter(Boolean).join("");
+        }
+        
+        if (typeof firstOutput.content === 'string') {
+          return firstOutput.content;
+        }
+        
         return "Here you go.";
-      if(Array.isArray(firstOutput.content))
-        return firstOutput.content.map((txt : string) => txt).join("");
-      return firstOutput.content || "Here you go.";
+      } catch (error) {
+        console.error('Error generating response:', error);
+        return "Here you go.";
+      }
     }
 
     const isError = !result.state.data.summary || 
