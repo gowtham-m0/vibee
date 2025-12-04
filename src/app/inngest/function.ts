@@ -9,6 +9,7 @@ import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from '@/prompt';
 import { lastAssistantTextMessageContent } from '@/lib/utils';
 import { prisma } from '@/lib/db';
 import { SANDBOX_TIMEOUT } from './types';
+import type { Message as PrismaMessage } from '@/generated/prisma';
 
 
 
@@ -34,7 +35,7 @@ export const codeAgentFunction = inngest.createFunction(
     const previousMessages = await step.run("get-previous-messages", async()=>{
       const formattedMessages: Message[] = [];
 
-      const messages = await prisma.message.findMany({
+      const messages: PrismaMessage[] = await prisma.message.findMany({
         where: {
           projectId: event.data.projectId,
         },
@@ -224,9 +225,7 @@ export const codeAgentFunction = inngest.createFunction(
       const firstOutput = responseOutput[0] as any;
       if(firstOutput.type === "text")
         return "Here you go.";
-      if(Array.isArray(firstOutput.content))
-        return firstOutput.content.map((txt : string) => txt).join("");
-      return firstOutput.content || "Here you go.";
+      }
     }
 
     const isError = !result.state.data.summary || 
