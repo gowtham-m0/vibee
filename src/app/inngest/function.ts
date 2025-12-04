@@ -13,7 +13,7 @@ import { SANDBOX_TIMEOUT } from './types';
 
 type LLMOutput = {
   type: string;
-  content: any;
+  content: string;
   role: string;
 }
 
