@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CrownIcon } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 interface Props{
     points: number;
@@ -16,21 +16,23 @@ export const Usage = ({ points, msBeforeNext}: Props)=>{
 
     const { has } = useAuth();
     const hasProAccess = has?.({ plan: 'pro' });
+    const [resetTime, setResetTime] = useState<string>("calculating...");
 
-    const resetTime = useMemo(()=>{
-        try{
-            return formatDuration(
+    useEffect(() => {
+        try {
+            const duration = formatDuration(
                 intervalToDuration({
                     start: new Date(),
                     end: new Date(Date.now() + msBeforeNext),
                 }),
-                {format: ["months","days","hours"]}
-            )
-        }catch(err){
-            console.error("Error formatting duration",err);
-            return "unknown";
+                { format: ["months", "days", "hours"] }
+            );
+            setResetTime(duration || "unknown");
+        } catch (err) {
+            console.error("Error formatting duration", err);
+            setResetTime("unknown");
         }
-    },[msBeforeNext]);
+    }, [msBeforeNext]);
 
     return (
         <div className="rounded-t-xl bg-background border border-b-0 p-2.5">

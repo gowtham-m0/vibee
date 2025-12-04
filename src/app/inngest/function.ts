@@ -11,11 +11,6 @@ import { prisma } from '@/lib/db';
 import { SANDBOX_TIMEOUT } from './types';
 
 
-type LLMOutput = {
-  type: string;
-  content: string;
-  role: string;
-}
 
 
 interface AgentState{
@@ -217,7 +212,7 @@ export const codeAgentFunction = inngest.createFunction(
     const {output: responseOutput} = await responseGenerator.run(result.state.data.summary);
 
     const generateFragmentTitle = () => {
-      const firstOutput = fragmentTitleOutput[0] as LLMOutput;
+      const firstOutput = fragmentTitleOutput[0] as any;
       if(firstOutput.type === "text")
         return "Fragment";
       if(Array.isArray(firstOutput.content))
@@ -226,7 +221,7 @@ export const codeAgentFunction = inngest.createFunction(
     }
 
     const generateResponse = () => {
-      const firstOutput = responseOutput[0] as LLMOutput;
+      const firstOutput = responseOutput[0] as any;
       if(firstOutput.type === "text")
         return "Here you go.";
       if(Array.isArray(firstOutput.content))
