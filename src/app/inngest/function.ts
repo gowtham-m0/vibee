@@ -1,4 +1,4 @@
-import { gemini, createAgent, createTool, AnyZodType, openai, anthropic, createNetwork, type Tool, type Message, createState } from '@inngest/agent-kit'
+import { gemini, createAgent, createTool, AnyZodType, createNetwork, type Tool, type Message, createState } from '@inngest/agent-kit'
 import { Sandbox } from "@e2b/code-interpreter"
 import 'dotenv/config';
 
@@ -8,10 +8,14 @@ import { getSandbox } from './utils';
 import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from '@/prompt';
 import { lastAssistantTextMessageContent } from '@/lib/utils';
 import { prisma } from '@/lib/db';
-import { format } from 'path';
-import { RESPONSE_LIMIT_DEFAULT } from 'next/dist/server/api-utils';
 import { SANDBOX_TIMEOUT } from './types';
 
+
+type LLMOutput = {
+  type: string;
+  content: any;
+  role: string;
+}
 
 
 interface AgentState{
@@ -213,20 +217,20 @@ export const codeAgentFunction = inngest.createFunction(
     const {output: responseOutput} = await responseGenerator.run(result.state.data.summary);
 
     const generateFragmentTitle = () => {
-      const firstOutput = fragmentTitleOutput[0] as any;
+      const firstOutput = fragmentTitleOutput[0] as LLMOutput;
       if(firstOutput.type === "text")
         return "Fragment";
       if(Array.isArray(firstOutput.content))
-        return firstOutput.content.map((txt: any) => txt).join("");
+        return firstOutput.content.map((txt: string) => txt).join("");
       return firstOutput.content || "Fragment";
     }
 
     const generateResponse = () => {
-      const firstOutput = fragmentTitleOutput[0] as any;
+      const firstOutput = responseOutput[0] as LLMOutput;
       if(firstOutput.type === "text")
         return "Here you go.";
       if(Array.isArray(firstOutput.content))
-        return firstOutput.content.map((txt: any) => txt).join("");
+        return firstOutput.content.map((txt : string) => txt).join("");
       return firstOutput.content || "Here you go.";
     }
 

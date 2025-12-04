@@ -5,7 +5,6 @@ import Link from "next/link";
 import { CrownIcon } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 import { useMemo } from "react";
-import { ms } from "date-fns/locale";
 
 interface Props{
     points: number;

@@ -1,11 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Fragment, MessageRole } from "@/generated/prisma";
 import { cn } from "@/lib/utils";
-import { createDecipheriv } from "crypto";
 import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import { ChevronRightIcon, Code2Icon } from "lucide-react";
-import { Assistant } from "next/font/google";
 import Image from "next/image";
 
 interface UserMessageProps{

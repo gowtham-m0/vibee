@@ -1,6 +1,5 @@
 
-import {  createTRPCRouter } from '../init';
-import { inngest } from '@/app/inngest/client';
+import {  createTRPCRouter } from '@/trpc/init';
 import { messageRouter } from '@/modules/messages/server/procedures';
 import { projectsRouter } from '@/modules/projects/server/procedures';
 import { usageRouter } from '@/modules/usage/server/procedures';
