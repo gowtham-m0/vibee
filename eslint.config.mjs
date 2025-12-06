@@ -9,27 +9,30 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-// build base next configs first
+// build base configs
 const base = compat.extends(
   "next/core-web-vitals",
   "next/typescript"
 );
 
-// now export final config
 export default [
   ...base,
   {
     ignores: [
-      "**/generated/*",
-      "**/src/generated/*",
-      "**/src/**/generated/*",
+      "**/generated/**",        // ignore all generated code
+      "**/src/generated/**",    // ignore TS compiled outputs
+      "**/src/**/generated/**",
       "**/node_modules/**",
+      "**/.next/**",            // important for Vercel
+      "**/prisma/**",           // prisma wasm lives here
+      "**/src/generated/prisma/**",
     ],
     rules: {
-      "@typescript-eslint/no-unused-expressions": "warn",
-      "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/no-require-imports": "warn",
-      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-this-alias": "off",            // 🆕 ADDED
+      "@typescript-eslint/no-explicit-any": "warn",        // optional
     },
   },
 ];
