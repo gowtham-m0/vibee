@@ -1,6 +1,8 @@
+// prisma.config.ts
 export default {
-  datasource: {
-    provider: "postgresql",
-    url: process.env.DATABASE_URL,
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,  // direct DB connection
+    },
   },
 };
