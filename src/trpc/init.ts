@@ -1,9 +1,12 @@
-import { auth } from '@clerk/nextjs/server';
+import { getAuth } from '@clerk/nextjs/server';
 import { initTRPC, TRPCError } from '@trpc/server';
+import { NextRequest } from 'next/server';
 import superjson from 'superjson';
-export async function createTRPCContext() {
-  const authObj = await auth();
-  return { auth:  authObj };
+
+
+export async function createTRPCContext(opts: {req: NextRequest}) {
+  const {req} = opts;
+  return { auth:  getAuth(req) };
 }
 
 export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
