@@ -225,7 +225,9 @@ export const codeAgentFunction = inngest.createFunction(
       const firstOutput = responseOutput[0] as any;
       if(firstOutput.type === "text")
         return "Here you go.";
-      }
+      if(Array.isArray(firstOutput.content))
+        return firstOutput.content.map((txt: string) => txt).join("");
+      return firstOutput.content || "Here you go.";
     }
 
     const isError = !result.state.data.summary || 
