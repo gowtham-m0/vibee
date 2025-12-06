@@ -4,11 +4,18 @@ const isPublicRoute = createRouteMatcher([
   '/',
   '/sign-in(.*)',
   '/sign-up(.*)',
-  '/api/trpc(.*)',     
   '/pricing(.*)',
+  // TRPC is public (no middleware)
+  '/api/trpc(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
+  const url = req.nextUrl.pathname;
+
+  if (url.startsWith('/api/trpc')) {
+    return;
+  }
+
   if (!isPublicRoute(req)) {
     await auth.protect();
   }
@@ -17,6 +24,6 @@ export default clerkMiddleware(async (auth, req) => {
 export const config = {
   matcher: [
     '/((?!_next/static|_next/image|favicon.ico).*)',
-    '/api/(?!trpc).*',    
+    '/api/:path*',
   ],
 };
