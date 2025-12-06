@@ -17,11 +17,11 @@ export const CodeView = ({ code, lang }: Props) => {
             try {
                 const PrismModule = await import("prismjs");
                 // Support both CJS interop shapes: module.default or module itself
-                const Prism = (PrismModule && (PrismModule as any).default) ? (PrismModule as any).default : (PrismModule as any);
+                const Prism = (PrismModule && (PrismModule).default) ? (PrismModule).default : (PrismModule);
 
             // Some Prism language plugins expect a global Prism variable — ensure it's set
                 if (typeof window !== "undefined") {
-                    (window as any).Prism = Prism;
+                    (window).Prism = Prism;
                 }
 
                 // Load dependencies in order (jsx depends on js, tsx depends on jsx and typescript)

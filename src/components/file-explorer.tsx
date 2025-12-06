@@ -1,5 +1,5 @@
-import { Copy, CopyCheckIcon, CopyIcon } from "lucide-react";
-import { useState, useMemo, useCallback, Fragment, use } from "react";
+import {  CopyCheckIcon, CopyIcon } from "lucide-react";
+import { useState, useMemo, useCallback, Fragment } from "react";
 
 import { Hint } from "./hint";
 import { Button } from "./ui/button";
@@ -19,10 +19,8 @@ import {
     BreadcrumbPage,
     BreadcrumbEllipsis
 } from "./ui/breadcrumb";
-import { file, set } from "zod";
 import { convertFilesToTreeItems } from "@/lib/utils";
 import { TreeView } from "./tree-view";
-import { max } from "date-fns";
 
 type FileCollection = { [path: string]: string};
 
