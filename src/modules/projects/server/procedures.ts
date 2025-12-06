@@ -75,7 +75,7 @@ export const projectsRouter = createTRPCRouter({
 
 
 
-            await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/inngest`, {
+            await fetch("/api/inngest", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

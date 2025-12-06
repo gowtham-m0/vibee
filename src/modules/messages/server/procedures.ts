@@ -72,7 +72,7 @@ export const messageRouter = createTRPCRouter({
     });
 
     // 2️⃣ Trigger Inngest by HTTP POST (self-hosted)
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/inngest`, {
+    await fetch("/api/inngest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
