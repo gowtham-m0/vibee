@@ -70,9 +70,12 @@ export const messageRouter = createTRPCRouter({
         type: "RESULT",
       },
     });
+    const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
     // 2️⃣ Trigger Inngest by HTTP POST (self-hosted)
-    await fetch("/api/inngest", {
+    await fetch(`${baseUrl}/api/inngest`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

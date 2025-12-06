@@ -72,10 +72,12 @@ export const projectsRouter = createTRPCRouter({
                     }
                 },
             })
+            const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 
-
-            await fetch("/api/inngest", {
+            await fetch(`${baseUrl}/api/inngest`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
