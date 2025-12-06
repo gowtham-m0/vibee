@@ -1,9 +1,9 @@
 import { auth } from '@clerk/nextjs/server';
 import { initTRPC, TRPCError } from '@trpc/server';
-import { cache } from 'react';
 import superjson from 'superjson';
 export async function createTRPCContext() {
-  return { auth: await auth() };
+  const authObj = await auth();
+  return { auth:  authObj };
 }
 
 export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
