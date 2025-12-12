@@ -6,7 +6,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import {
     ChevronDownIcon,
     ChevronLeftIcon,
-    EditIcon,
     SunMoonIcon,
 } from "lucide-react"
 
@@ -26,7 +25,6 @@ import {
     DropdownMenuSubContent,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { use } from "react";
 
 
 interface Props {

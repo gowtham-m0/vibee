@@ -13,7 +13,7 @@ import { useTRPC } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { PROJECT_TEMPLATES } from "../../contants";
+import { PROJECT_TEMPLATES } from "@/modules/home/contants";
 import { useClerk } from "@clerk/nextjs";
 
 
