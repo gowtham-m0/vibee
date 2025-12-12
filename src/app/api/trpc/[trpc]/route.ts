@@ -1,17 +1,14 @@
-export const runtime = 'nodejs';
+import { appRouter } from "@/trpc/routers/_app";
+import { createTRPCContext } from "@/trpc/init";
+import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import { createTRPCContext } from '@/trpc/init';
-import { appRouter } from '@/trpc/routers/_app';
-import { auth } from '@clerk/nextjs/server';
-import { NextRequest } from 'next/server';
-
-
-const handler = (req: NextRequest) =>
-  fetchRequestHandler({
-    endpoint: '/api/trpc',
+const handler = (req: Request) => {
+  return fetchRequestHandler({
+    endpoint: "/api/trpc",
     req,
     router: appRouter,
-    createContext: () => createTRPCContext({req}),
+    createContext: createTRPCContext,  
   });
+};
+
 export { handler as GET, handler as POST };
