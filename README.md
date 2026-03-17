@@ -50,7 +50,7 @@ Make sure you have [Node.js](https://nodejs.org/) installed along with your pref
 
 1. Clone the repository and navigate into the project directory:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/gowtham-m0/vibee
    cd vibe
    ```
 
