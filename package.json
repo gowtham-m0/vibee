@@ -77,14 +77,14 @@
     "zod": "^4.0.15"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^0.1.0",
+    "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/prismjs": "^1.26.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^10.0.1",
-    "eslint-config-next": "^0.2.4",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^15.5.12",
     "prisma": "^6.10.1",
     "tailwindcss": "^4",
     "tsx": "^4.20.3",
