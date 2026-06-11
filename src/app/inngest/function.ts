@@ -1,4 +1,4 @@
-import { gemini, createAgent, createTool, AnyZodType, openai, anthropic, createNetwork, type Tool, type Message, createState } from '@inngest/agent-kit'
+import { gemini, createAgent, createTool, openai, anthropic, createNetwork, type Tool, type Message, createState } from '@inngest/agent-kit'
 import { Sandbox } from "@e2b/code-interpreter"
 import 'dotenv/config';
 
@@ -79,7 +79,7 @@ export const codeAgentFunction = inngest.createFunction(
           description: "Use the terminal to run commands.",
           parameters: z.object({
             command: z.string(),
-          }) as unknown as AnyZodType,
+          }),
           handler: async ({ command }, { step }) => {
             return await step?.run("terminal", async () => {
               const buffers = { stdout: "", stderr: "" };
@@ -114,7 +114,7 @@ export const codeAgentFunction = inngest.createFunction(
                 content: z.string(),
               })
             ),
-          }) as unknown as AnyZodType,
+          }),
           handler: async ({ files }, { step, network } : Tool.Options<AgentState>) => {
             const newFiles = await step?.run("createOrUpdateFiles", async () => {
               try {
@@ -139,7 +139,7 @@ export const codeAgentFunction = inngest.createFunction(
           description: "Read files from the sandbox.",
           parameters: z.object({
             files: z.array(z.string()),
-          }) as unknown as AnyZodType ,
+          }),
           handler: async({files},{step}) =>{
             return await step?.run("readFiles", async () => {
             try{
